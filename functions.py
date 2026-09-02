@@ -2,9 +2,14 @@ from entities import Portfolio
 from entities import Instrument
 from entities import Trade
 
-portfolios = [Portfolio("Sweden", "SEK")]
-instruments = [Instrument("Volvo", "Stock")]
-trades = []
+# testdata
+sweden = Portfolio("Sweden", "SEK")
+volvo = Instrument("Volvo", "Stock")
+
+portfolios = [sweden]
+instruments = [volvo]
+trades = [Trade(volvo, sweden, 10, 100, "BUY"),
+          Trade(volvo, sweden, 5, 100, "SELL")]
 
 
 # Create portfolios
@@ -100,5 +105,26 @@ def list_trades():
                 print_trade(t)
 
 
+# Calculate the profit and loss (P&L) for a given portfolio based on recorded trades
+def calculate_pnl():
+    portfolio_name = input("Portfolio: ")
+
+    pnl = 0
+    found = False
+
+    for t in trades:
+        if t.portfolio.name.lower() == portfolio_name.lower():
+            found = True
+            trade_value = t.quantity * t.price
+
+            if t.direction == "BUY":
+                pnl -= trade_value
+            elif t.direction == "SELL":
+                pnl += trade_value
+
+    if found:
+        print(f"P&L for {portfolio_name}: {pnl}")
+    else:
+        print("No trades found for this portfolio")
 
 
