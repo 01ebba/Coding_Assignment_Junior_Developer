@@ -9,7 +9,7 @@ volvo = Instrument("Volvo", "Stock")
 portfolios = [sweden]
 instruments = [volvo]
 trades = [Trade(volvo, sweden, 10, 100, "BUY"),
-          Trade(volvo, sweden, 5, 100, "SELL")]
+          Trade(volvo, sweden, 5, 120, "SELL")]
 
 
 # Create portfolios
@@ -128,3 +128,39 @@ def calculate_pnl():
         print("No trades found for this portfolio")
 
 
+# calculate the net position value based on trade history
+def calculate_net_position_value():
+    portfolio_name = input("Portfolio: ")
+
+    positions = {}
+    found = False
+    for t in trades:
+        if t.portfolio.name.lower() == portfolio_name.lower():
+            found = True
+
+            # if instrument not in positions, add to dictionary 
+            instrument_name = t.instrument.name
+            if instrument_name not in positions:
+                positions[instrument_name] = {"quantity": 0, "latest_price": 0}
+
+            if t.direction == "BUY":
+                positions[instrument_name]["quantity"] += t.quantity
+            elif t.direction == "SELL":
+                positions[instrument_name]["quantity"] -= t.quantity
+
+            # Save price from latest trade
+            positions[instrument_name]["latest_price"] = t.price
+
+    if not found: 
+        print("No trades found for this portfolio")
+        return
+
+    total_value = 0
+
+    for instrument_name, position in positions.items():
+        value = position["quantity"] * position["latest_price"]
+        total_value += value
+
+        print(f"{instrument_name}: {position["quantity"]} * {position["latest_price"]} = {value}")
+
+    print(f"Net position value for {portfolio_name}: {total_value}")

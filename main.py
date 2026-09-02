@@ -1,4 +1,4 @@
-from functions import create_portfolio, list_portfolios, create_instrument, list_instruments, record_trade, list_trades, calculate_pnl
+from functions import create_portfolio, list_portfolios, create_instrument, list_instruments, record_trade, list_trades, calculate_pnl, calculate_net_position_value
 
 running = True
 
@@ -11,6 +11,7 @@ while running:
         5. Record trades
         6. List trades 
         7. Calculate P&L
+        8. Calculate net position value
         x. Quit
     """)
 
@@ -31,5 +32,7 @@ while running:
         list_trades()
     elif choice == "7":
         calculate_pnl()
+    elif choice == "8":
+        calculate_net_position_value()
     elif choice == "x":
         running = False
