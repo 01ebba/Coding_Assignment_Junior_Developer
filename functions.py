@@ -2,14 +2,19 @@ from entities import Portfolio
 from entities import Instrument
 from entities import Trade
 
-# testdata
-sweden = Portfolio("Sweden", "SEK")
-volvo = Instrument("Volvo", "Stock")
 
-portfolios = [sweden]
-instruments = [volvo]
-trades = [Trade(volvo, sweden, 10, 100, "BUY"),
-          Trade(volvo, sweden, 5, 120, "SELL")]
+portfolios = []
+instruments = []
+trades = []
+
+# testdata
+#sweden = Portfolio("Sweden", "SEK")
+#volvo = Instrument("Volvo", "Stock")
+
+#portfolios = [sweden]
+#instruments = [volvo]
+#trades = [Trade(volvo, sweden, 10, 100, "BUY"),
+#         Trade(volvo, sweden, 5, 120, "SELL")]
 
 
 # Create portfolios
@@ -59,6 +64,7 @@ def record_trade():
     search_portfolio = input("Portfolio: ").strip()
     found_portfolio = None
 
+    # Find the selected portfolio
     for p in portfolios:
         if search_portfolio.lower() == p.name.lower():
             found_portfolio = p
@@ -67,15 +73,18 @@ def record_trade():
     search_instrument = input("Instrument: ").strip()
     found_instrument = None
 
+    # Find the selected instrument
     for i in instruments:
         if search_instrument.lower() == i.name.lower():
             found_instrument = i
             break
 
+    # Stop if portfolio or instrument does not exist
     if found_portfolio is None or found_instrument is None:
         print("Portfolip or instrument not found")
         return
 
+    # Validate input
     try:
         quantity = int(input("Quantity: "))
         price = float(input("Price: "))
@@ -93,13 +102,15 @@ def record_trade():
     
     direction = input("Direction: ").strip().upper()
 
+    # Only BUY and SELL are accepted
     if direction not in ["BUY", "SELL"]:
         print("Direction must be BUY or SELL")
         return
 
+    # Create and store trade
     trade = Trade(found_instrument, found_portfolio, quantity, price, direction)
-
     trades.append(trade)
+
     print("Trade recorded")
 
 
@@ -136,18 +147,20 @@ def list_trades():
         print("Invalid choice")
 
 
-# Calculate the profit and loss (P&L) for a given portfolio based on recorded trades
+# Calculate simplified P&L (profit and loss) as net cash flow from trades
 def calculate_pnl():
     portfolio_name = input("Portfolio: ")
 
     pnl = 0
     found = False
 
+    # Go through all trades in the selected portfolio
     for t in trades:
         if t.portfolio.name.lower() == portfolio_name.lower():
             found = True
             trade_value = t.quantity * t.price
 
+            # BUY = money out and SELL = money in
             if t.direction == "BUY":
                 pnl -= trade_value
             elif t.direction == "SELL":
@@ -163,8 +176,12 @@ def calculate_pnl():
 def calculate_net_position_value():
     portfolio_name = input("Portfolio: ")
 
+    # Stores net quantity and latest trade price for each instrument
     positions = {}
+
     found = False
+
+    # Create current position for each instrument
     for t in trades:
         if t.portfolio.name.lower() == portfolio_name.lower():
             found = True
@@ -186,6 +203,7 @@ def calculate_net_position_value():
         print("No trades found for this portfolio")
         return
 
+    # Calculate total value using the latest recorded trade price
     total_value = 0
 
     for instrument_name, position in positions.items():

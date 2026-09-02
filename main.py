@@ -2,6 +2,7 @@ from functions import create_portfolio, list_portfolios, create_instrument, list
 
 running = True
 
+# Main menu for managing portfolios and trades
 while running:
     print("""
         1. Create portfolio
@@ -16,7 +17,7 @@ while running:
     """)
 
 
-    choice = input("Choose: ")
+    choice = input("Choose an option from the menu: ")
 
     if choice == "1":
         create_portfolio()
