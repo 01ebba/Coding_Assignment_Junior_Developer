@@ -14,8 +14,12 @@ trades = [Trade(volvo, sweden, 10, 100, "BUY"),
 
 # Create portfolios
 def create_portfolio():
-    name = input("Name: ")
-    currency = input("Currency: ")
+    name = input("Name: ").strip()
+    currency = input("Currency: ").strip()
+
+    if name == "" or currency == "":
+        print("Name and currency can't be empty")
+        return
 
     portfolio = Portfolio(name, currency)
     portfolios.append(portfolio)
@@ -31,8 +35,12 @@ def list_portfolios():
 
 # Create instrument
 def create_instrument():
-    name = input("Name: ")
-    instrument_type = input("Instrument type: ")
+    name = input("Name: ").strip()
+    instrument_type = input("Instrument type: ").strip()
+
+    if name == "" or instrument_type == "":
+        print("Name and instrument type can't be empty")
+        return
 
     instrument = Instrument(name, instrument_type)
     instruments.append(instrument)
@@ -103,6 +111,8 @@ def list_trades():
         for t in trades:
             if t.instrument.name.lower() == inst_choice.lower():
                 print_trade(t)
+    else:
+        print("Invalid choice")
 
 
 # Calculate the profit and loss (P&L) for a given portfolio based on recorded trades

@@ -36,3 +36,5 @@ while running:
         calculate_net_position_value()
     elif choice == "x":
         running = False
+    else:
+        print("Invalid choice")
