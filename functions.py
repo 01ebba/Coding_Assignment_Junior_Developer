@@ -56,30 +56,51 @@ def list_instruments():
 
 # Record a trade (buy or sell) for a given instrument and portfolio
 def record_trade():
-    search_portfolio = input("Portfolio: ")
+    search_portfolio = input("Portfolio: ").strip()
     found_portfolio = None
 
     for p in portfolios:
-        if search_portfolio == p.name:
+        if search_portfolio.lower() == p.name.lower():
             found_portfolio = p
+            break
 
-    search_instrument = input("Instrument: ")
+    search_instrument = input("Instrument: ").strip()
     found_instrument = None
 
     for i in instruments:
-        if search_instrument == i.name:
+        if search_instrument.lower() == i.name.lower():
             found_instrument = i
+            break
 
-    if found_portfolio is not None and found_instrument is not None:
+    if found_portfolio is None or found_instrument is None:
+        print("Portfolip or instrument not found")
+        return
+
+    try:
         quantity = int(input("Quantity: "))
         price = float(input("Price: "))
-        direction = input("Direction: ").upper()
+    except ValueError:
+        print("Quantity must be an integer and Price must be a number")
+        return
 
-        trade = Trade(found_instrument, found_portfolio, quantity, price, direction)
-        trades.append(trade)
-        print("Trade recorded")
-    else: 
-        print("Portfolio or Instrument not found")
+    # Quantity and price must be greater than 0
+    if quantity <= 0:
+        print("Quantity must be greater than 0")
+        return
+    if price <= 0:
+        print("Price must be greater than 0")
+        return
+    
+    direction = input("Direction: ").strip().upper()
+
+    if direction not in ["BUY", "SELL"]:
+        print("Direction must be BUY or SELL")
+        return
+
+    trade = Trade(found_instrument, found_portfolio, quantity, price, direction)
+
+    trades.append(trade)
+    print("Trade recorded")
 
 
 # print trades
