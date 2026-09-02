@@ -68,9 +68,37 @@ def record_trade():
     else: 
         print("Portfolio or Instrument not found")
 
+
+# print trades
+def print_trade(t):
+    print(f"{t.instrument.name} | {t.portfolio.name} | {t.quantity} | {t.price} | {t.direction} | {t.timestamp} ")
+
+
 # List all trades, with optional filtering by portfolio or instrument
 def list_trades():
-    for t in trades:
-        print(f"{t.instrument.name} | {t.portfolio.name} | {t.quantity} | {t.price} | {t.direction} | {t.timestamp} ")
+    print("""
+        1. Show all trades
+        2. Filter by portfolio
+        3. Filter by instrument
+    """)
+    choice = input("Choose: ")
+
+    if choice == "1":
+        for t in trades:
+            print_trade(t)
+
+    elif choice == "2":
+        port_choice = input("Portfolio: ")
+        for t in trades:
+            if t.portfolio.name.lower() == port_choice.lower():
+                print_trade(t)
+
+    elif choice == "3":
+        inst_choice = input("Instrument: ")
+        for t in trades:
+            if t.instrument.name.lower() == inst_choice.lower():
+                print_trade(t)
+
+
 
 
