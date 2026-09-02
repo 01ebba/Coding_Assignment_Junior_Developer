@@ -2,8 +2,8 @@ from entities import Portfolio
 from entities import Instrument
 from entities import Trade
 
-portfolios = []
-instruments = []
+portfolios = [Portfolio("Sweden", "SEK")]
+instruments = [Instrument("Volvo", "Stock")]
 trades = []
 
 
@@ -69,3 +69,8 @@ def record_trade():
         print("Portfolio or Instrument not found")
 
 # List all trades, with optional filtering by portfolio or instrument
+def list_trades():
+    for t in trades:
+        print(f"{t.instrument.name} | {t.portfolio.name} | {t.quantity} | {t.price} | {t.direction} | {t.timestamp} ")
+
+
