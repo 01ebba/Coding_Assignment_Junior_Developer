@@ -1,4 +1,4 @@
-from functions import create_portfolio, list_portfolios, create_instrument, list_instruments
+from functions import create_portfolio, list_portfolios, create_instrument, list_instruments, record_trade
 
 running = True
 
@@ -8,6 +8,8 @@ while running:
         2. List portfolios
         3. Create instrument
         4. List instruments
+        5. Record trades
+        6. List trades 
         x. Quit
     """)
 
@@ -22,5 +24,7 @@ while running:
         create_instrument()
     elif choice == "4":
         list_instruments()
+    elif choice == "5":
+        record_trade()
     elif choice == "x":
         running = False
